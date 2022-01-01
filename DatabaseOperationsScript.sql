@@ -70,3 +70,38 @@ as
 Begin     
     SELECT * FROM user_tbl WHERE UserID= @UserId
 End
+
+-- Creating a stored procedure for updating the user details
+Create procedure spForUpdatingUsers     
+
+(     
+
+   @UserId INTEGER ,   
+
+   @FullName VARCHAR(20),    
+
+   @EmailId VARCHAR(20),   
+
+   @Password VARCHAR(20),   
+
+   @MobileNum bigint   
+
+)     
+
+as     
+
+begin     
+
+   Update user_tbl      
+
+   set FullName=@FullName,     
+
+   EmailId=@EmailId,     
+
+   Password=@Password,   
+
+   MobileNum=@MobileNum     
+
+   where UserId=@UserId     
+
+End
