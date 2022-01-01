@@ -37,3 +37,26 @@ Begin
     Values (@FullName,@EmailId,@Password, @MobileNum)    
 
 End
+
+-- Creating a stored procedure for getting the user details
+Create procedure spForGettingAllUsers   
+
+as   
+
+Begin   
+
+    select
+
+                   UserId,
+
+                   FullName,
+
+                   EmailId,
+
+                   Password,   
+
+                   MobileNum
+
+    from user_tbl   
+
+End
