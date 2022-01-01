@@ -105,3 +105,20 @@ begin
    where UserId=@UserId     
 
 End
+
+-- Creating a stored procedure for deleting a user
+Create procedure spForDeletingUsers    
+
+(     
+
+   @UserId int     
+
+)     
+
+as      
+
+begin     
+
+   Delete from user_tbl where UserId=@UserId     
+
+End
