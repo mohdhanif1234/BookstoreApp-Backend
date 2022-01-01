@@ -60,3 +60,13 @@ Begin
     from user_tbl   
 
 End
+
+-- Creating a stored procedure for getting the details of a specific user
+Create procedure spForGettingASingleUser
+(    
+    @UserId int
+)    
+as     
+Begin     
+    SELECT * FROM user_tbl WHERE UserID= @UserId
+End
