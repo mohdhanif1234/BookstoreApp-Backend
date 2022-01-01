@@ -24,7 +24,7 @@ Create procedure spForAddingUsers
 
     @Password VARCHAR(20),   
 
-    @MobileNum VARCHAR(6)   
+    @MobileNum bigint   
 
 )   
 
