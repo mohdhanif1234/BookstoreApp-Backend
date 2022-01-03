@@ -39,5 +39,27 @@ namespace BookstoreApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("api/login")]
+        public IActionResult Login([FromBody] RegisterModel registerModel)
+        {
+            try
+            {
+                string result = this.manager.Register(registerModel);
+                if (result.Equals("Login is successful"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
