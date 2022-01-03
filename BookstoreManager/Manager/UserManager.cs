@@ -25,5 +25,16 @@ namespace BookstoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string Login(RegisterModel registerModel)
+        {
+            try
+            {
+                return this.repository.Login(registerModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
