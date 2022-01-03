@@ -6,6 +6,6 @@ namespace BookstoreRepository.Interface
     {
         string connectionString { get; set; }
         string Register(RegisterModel registerModel);
-        string Login(RegisterModel registerModel);
+        string Login(LoginModel loginModel);
     }
 }

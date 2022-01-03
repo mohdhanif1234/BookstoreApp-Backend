@@ -48,5 +48,34 @@ namespace BookstoreRepository.Repository
                 throw new ArgumentNullException(e.Message);
             }
         }
+        public string Login(LoginModel loginModel)
+        {
+            try
+            {
+                if (loginModel != null)
+                {
+                    string ConnectionStrings = config.GetConnectionString(connectionString);
+                    SqlDataReader dr;
+                    using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                    {
+                        SqlCommand cmd = new SqlCommand("spForLogin", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmailId", loginModel.EmailId);
+                        cmd.Parameters.AddWithValue("@Password", loginModel.Password);
+                        con.Open();
+                        dr = cmd.ExecuteReader();
+                        if (dr.Read())
+                        {
+                            return "Login is successful";
+                        }
+                    }
+                }
+                        return "Login is unsuccessful";
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new ArgumentNullException(e.Message);
+            }
+        }
     }
 }
