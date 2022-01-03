@@ -32,7 +32,7 @@ as
 
 Begin    
 
-    Insert into users_tbl (FullName,EmailId,Password, MobileNum)    
+    Insert into user_tbl (FullName,EmailId,Password, MobileNum)    
 
     Values (@FullName,@EmailId,@Password, @MobileNum)    
 
@@ -121,4 +121,22 @@ begin
 
    Delete from user_tbl where UserId=@UserId     
 
+End
+
+-- Creating a stored procedure for login
+Create procedure spForLogin 
+
+(       
+
+    @EmailId VARCHAR(20),   
+
+    @Password VARCHAR(20)
+
+)   
+
+as    
+
+Begin    
+
+	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@Password
 End
