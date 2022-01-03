@@ -25,11 +25,11 @@ namespace BookstoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public string Login(RegisterModel registerModel)
+        public string Login(LoginModel loginModel)
         {
             try
             {
-                return this.repository.Login(registerModel);
+                return this.repository.Login(loginModel);
             }
             catch (Exception ex)
             {

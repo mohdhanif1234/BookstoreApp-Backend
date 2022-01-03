@@ -42,11 +42,11 @@ namespace BookstoreApp.Controller
 
         [HttpPost]
         [Route("api/login")]
-        public IActionResult Login([FromBody] RegisterModel registerModel)
+        public IActionResult Login([FromBody] LoginModel loginModel)
         {
             try
             {
-                string result = this.manager.Register(registerModel);
+                string result = this.manager.Login(loginModel);
                 if (result.Equals("Login is successful"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
