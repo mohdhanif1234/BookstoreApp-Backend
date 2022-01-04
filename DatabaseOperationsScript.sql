@@ -5,7 +5,7 @@ UserId int IDENTITY(1,1) NOT NULL,
 
 FullName varchar(20) NOT NULL,   
 
-EmailId varchar(20) NOT NULL,   
+EmailId varchar(50) NOT NULL,   
 
 Password varchar(20) NOT NULL,   
 
@@ -20,7 +20,7 @@ Create procedure spForAddingUsers
 
     @FullName VARCHAR(20),    
 
-    @EmailId VARCHAR(20),   
+    @EmailId VARCHAR(50),   
 
     @Password VARCHAR(20),   
 
@@ -80,7 +80,7 @@ Create procedure spForUpdatingUsers
 
    @FullName VARCHAR(20),    
 
-   @EmailId VARCHAR(20),   
+   @EmailId VARCHAR(50),   
 
    @Password VARCHAR(20),   
 
@@ -128,7 +128,7 @@ Create procedure spForLogin
 
 (       
 
-    @EmailId VARCHAR(20),   
+    @EmailId VARCHAR(50),   
 
     @Password VARCHAR(20)
 
@@ -146,7 +146,7 @@ Create procedure spForResetPassword
 
 (       
 
-    @EmailId VARCHAR(20),   
+    @EmailId VARCHAR(50),   
 
     @NewPassword VARCHAR(20)
 
@@ -171,7 +171,7 @@ Create procedure spForForgotPassword
 
 (       
 
-    @EmailId VARCHAR(20) 
+    @EmailId VARCHAR(50) 
 
 )   
 
