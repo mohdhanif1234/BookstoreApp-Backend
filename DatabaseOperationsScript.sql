@@ -165,3 +165,20 @@ Begin
 	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@NewPassword
 
 End
+
+-- Creating a stored procedure for forgot password
+Create procedure spForForgotPassword
+
+(       
+
+    @EmailId VARCHAR(20) 
+
+)   
+
+as    
+
+Begin    
+
+	SELECT EmailId FROM user_tbl WHERE EmailId= @EmailId
+
+End
