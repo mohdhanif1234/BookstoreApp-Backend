@@ -162,4 +162,6 @@ Begin
 
 	where EmailId=@EmailId
 
+	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@NewPassword
+
 End
