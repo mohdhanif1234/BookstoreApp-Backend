@@ -156,5 +156,10 @@ as
 
 Begin    
 
-	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@NewPassword
+	Update user_tbl
+	
+	set Password=@NewPassword
+
+	where EmailId=@EmailId
+
 End
