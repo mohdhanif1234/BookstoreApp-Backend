@@ -17,6 +17,11 @@ namespace BookstoreRepository.Repository
         {
             this.config = configuration;
         }
+        public string EncryptPassword(string password)
+        {
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            return Convert.ToBase64String(passwordBytes);
+        }
         public string Register(RegisterModel registerModel)
         {
             try
@@ -30,7 +35,7 @@ namespace BookstoreRepository.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@FullName", registerModel.FullName);
                         cmd.Parameters.AddWithValue("@EmailId", registerModel.EmailId);
-                        cmd.Parameters.AddWithValue("@Password", registerModel.Password);
+                        cmd.Parameters.AddWithValue("@Password", EncryptPassword(registerModel.Password));
                         cmd.Parameters.AddWithValue("@MobileNum", registerModel.MobileNum);
                         con.Open();
                         cmd.ExecuteNonQuery();
