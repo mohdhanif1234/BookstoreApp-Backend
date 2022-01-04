@@ -140,3 +140,21 @@ Begin
 
 	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@Password
 End
+
+-- Creating a stored procedure for password reset
+Create procedure spForResetPassword
+
+(       
+
+    @EmailId VARCHAR(20),   
+
+    @NewPassword VARCHAR(20)
+
+)   
+
+as    
+
+Begin    
+
+	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@NewPassword
+End
