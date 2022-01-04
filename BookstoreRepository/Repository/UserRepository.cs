@@ -1,10 +1,12 @@
 ﻿using BookstoreModels;
 using BookstoreRepository.Interface;
+using Experimental.System.Messaging;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Mail;
 using System.Text;
 
 namespace BookstoreRepository.Repository
@@ -109,6 +111,75 @@ namespace BookstoreRepository.Repository
             {
                 throw new ArgumentNullException(e.Message);
             }
+        }
+        public string ForgotPassword(string EmailId)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForForgotPassword", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@EmailId", EmailId);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        SMTP(EmailId);
+                        return "Email is sent successfully";
+                    }
+                    else
+                    {
+                        return "Email Id does not exist";
+                    }
+
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public void SMTP(string EmailId)
+        {
+            MailMessage mailId = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            mailId.From = new MailAddress(this.config["Credentials:testEmailId"]);
+            mailId.To.Add(EmailId);
+            mailId.Subject = "Test Mail";
+            this.SendMSMQ();
+            mailId.Body = this.ReceiveMSMQ();
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential(this.config["Credentials:testEmailId"], this.config["Credentials:testEmailPassword"]);
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(mailId);
+        }
+        public void SendMSMQ()
+        {
+            MessageQueue msgQueue;
+            if (MessageQueue.Exists(@".\Private$\book"))
+            {
+                msgQueue = new MessageQueue(@".\Private$\book");
+            }
+            else
+            {
+                msgQueue = MessageQueue.Create(@".\Private$\book");
+            }
+            Message message = new Message();
+            var formatter = new BinaryMessageFormatter();
+            message.Formatter = formatter;
+            message.Body = "This mail is to reset password";
+            msgQueue.Label = "MailBody";
+            msgQueue.Send(message);
+        }
+
+        public string ReceiveMSMQ()
+        {
+            var receivequeue = new MessageQueue(@".\Private$\book");
+            var receivemsg = receivequeue.Receive();
+            receivemsg.Formatter = new BinaryMessageFormatter();
+            return receivemsg.Body.ToString();
         }
     }
 }

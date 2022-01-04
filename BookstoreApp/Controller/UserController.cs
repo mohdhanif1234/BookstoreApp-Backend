@@ -35,7 +35,7 @@ namespace BookstoreApp.Controller
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -69,6 +69,27 @@ namespace BookstoreApp.Controller
             {
                 string result = this.manager.ResetPassword(resetPasswordModel);
                 if (result.Equals("Password reset is successful"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPost]
+        [Route("api/forgotpassword")]
+        public IActionResult ForgotPassword(string EmailId)
+        {
+            try
+            {
+                string result = this.manager.ForgotPassword(EmailId);
+                if (result.Equals("Email is sent successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
