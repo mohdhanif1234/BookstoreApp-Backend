@@ -189,21 +189,21 @@ Create table bookdetails_tbl(
 
 BookId int IDENTITY(1,1) NOT NULL,   
 
-BookTitle varchar(50) NOT NULL,   
+BookTitle varchar(50),   
 
-AuthorName varchar(50) NOT NULL,   
+AuthorName varchar(50),   
 
 Rating float,   
 
 RatingCount int,
 
-OriginalPrice int NOT NULL,
+OriginalPrice int,
 
-DiscountedPrice int NOT NULL,
+DiscountedPrice int,
 
-Description varchar(max) NOT NULL,
+Description varchar(max),
 
-BookQty int NOT NULL,
+BookQty int,
 
 Image varchar(100)
 

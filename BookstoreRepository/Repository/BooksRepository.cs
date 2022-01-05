@@ -75,5 +75,37 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public string UpdateBookDetails(BookDetailsModel bookDetailsModel)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForUpdatingBookDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookDetailsModel.BookId);
+                    cmd.Parameters.AddWithValue("@Rating", bookDetailsModel.Rating);
+                    cmd.Parameters.AddWithValue("@RatingCount", bookDetailsModel.RatingCount);
+                    cmd.Parameters.AddWithValue("@OriginalPrice", bookDetailsModel.OriginalPrice);
+                    cmd.Parameters.AddWithValue("@DiscountedPrice", bookDetailsModel.DiscountedPrice);
+                    cmd.Parameters.AddWithValue("@Description", bookDetailsModel.Description);
+                    cmd.Parameters.AddWithValue("@BookQty", bookDetailsModel.BookQty);
+                    cmd.Parameters.AddWithValue("@Image", bookDetailsModel.Image);
+                    con.Open();
+                    int a = cmd.ExecuteNonQuery();
+                    if (a > 0)
+                    {
+                        con.Close();
+                        return "Book details updated successfully";
+                    }
+                }
+                return "Book details updation is unsuccessful";
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

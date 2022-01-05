@@ -46,7 +46,29 @@ namespace BookstoreApp.Controller
             try
             {
                 string result = this.manager.DeleteBookDetails(bookId);
-                if (result.Equals("Book details added successfully"))
+                if (result.Equals("Book details deleted successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/updatebookdetails")]
+        public IActionResult UpdateBookDetails([FromBody] BookDetailsModel bookDetailsModel)
+        {
+            try
+            {
+                string result = this.manager.UpdateBookDetails(bookDetailsModel);
+                if (result.Equals("Book details updated successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }

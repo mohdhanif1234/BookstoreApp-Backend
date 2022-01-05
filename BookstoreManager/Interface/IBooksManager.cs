@@ -6,5 +6,6 @@ namespace BookstoreManager.Interface
     {
         string AddBookDetails(BookDetailsModel bookDetailsModel);
         string DeleteBookDetails(int bookId);
+        string UpdateBookDetails(BookDetailsModel bookDetailsModel);
     }
 }
