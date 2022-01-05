@@ -6,5 +6,6 @@ namespace BookstoreRepository.Interface
     {
         string connectionString { get; set; }
         string AddBookDetails(BookDetailsModel bookDetailsModel);
+        string DeleteBookDetails(int bookId);
     }
 }

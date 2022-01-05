@@ -25,5 +25,16 @@ namespace BookstoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteBookDetails(int bookId)
+        {
+            try
+            {
+                return this.repository.DeleteBookDetails(bookId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
