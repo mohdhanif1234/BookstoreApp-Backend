@@ -1,0 +1,43 @@
+﻿using BookstoreManager.Interface;
+using BookstoreModels;
+using FundooModel;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace BookstoreApp.Controller
+{
+    public class BooksController : ControllerBase
+    {
+        private readonly IBooksManager manager;
+
+        public BooksController(IBooksManager manager)
+        {
+            this.manager = manager;
+        }
+
+        [HttpPost]
+        [Route("api/addbookdetails")]
+        public IActionResult AddBookDetails([FromBody] BookDetailsModel bookDetailsModel)
+        {
+            try
+            {
+                string result = this.manager.AddBookDetails(bookDetailsModel);
+                if (result.Equals("Book details added successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+    }
+}
