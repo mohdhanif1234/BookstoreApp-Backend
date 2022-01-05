@@ -264,3 +264,50 @@ begin
    Delete from bookdetails_tbl where BookId=@BookId     
 
 End
+
+-- Creating a stored procedure for updating the book details
+Create procedure spForUpdatingBookDetails     
+
+(     
+
+   @BookId INTEGER ,   
+
+   @Rating float,    
+
+   @RatingCount int,   
+
+   @OriginalPrice int,  
+
+   @DiscountedPrice int,
+
+   @Description varchar(max),
+
+   @BookQty int,
+
+   @Image varchar(100)
+
+)     
+
+as     
+
+begin     
+
+   Update bookdetails_tbl      
+
+   set Rating=@Rating,     
+
+   RatingCount=@RatingCount,     
+
+   OriginalPrice=@OriginalPrice,   
+
+   DiscountedPrice=@DiscountedPrice,     
+
+   Description=@Description,
+
+   BookQty=@BookQty,
+
+   Image=@Image
+
+   where BookId=@BookId     
+
+End
