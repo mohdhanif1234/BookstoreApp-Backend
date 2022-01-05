@@ -311,3 +311,13 @@ begin
    where BookId=@BookId     
 
 End
+
+-- Creating a stored procedure for getting the details of a specific book
+Create procedure spForGettingSingleBookDetails
+(    
+    @BookId int
+)    
+as     
+Begin     
+    SELECT * FROM bookdetails_tbl WHERE BookID= @BookId
+End
