@@ -245,4 +245,22 @@ Begin
     Values (@BookTitle,@AuthorName,@Rating,@RatingCount,@OriginalPrice,@DiscountedPrice,@Description,@BookQty,@Image)    
 
 	SELECT * FROM bookdetails_tbl;
+
+End
+
+-- Creating a stored procedure for deleting book details
+Create procedure spForDeletingBookDetails    
+
+(     
+
+   @BookId int     
+
+)     
+
+as      
+
+begin     
+
+   Delete from bookdetails_tbl where BookId=@BookId     
+
 End
