@@ -182,3 +182,29 @@ Begin
 	SELECT EmailId FROM user_tbl WHERE EmailId= @EmailId
 
 End
+
+
+-- Creating a book details table
+Create table bookdetails_tbl(   
+
+BookId int IDENTITY(1,1) NOT NULL,   
+
+BookTitle varchar(50) NOT NULL,   
+
+AuthorName varchar(50) NOT NULL,   
+
+Rating float,   
+
+RatingCount int,
+
+OriginalPrice int NOT NULL,
+
+DiscountedPrice int NOT NULL,
+
+Description varchar(max) NOT NULL,
+
+BookQty int NOT NULL,
+
+Image varchar(100)
+
+)
