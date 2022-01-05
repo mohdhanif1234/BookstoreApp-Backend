@@ -208,3 +208,41 @@ BookQty int NOT NULL,
 Image varchar(100)
 
 )
+
+select * from bookdetails_tbl;
+
+-- Creating a stored procedure for adding the book details
+Create procedure spForAddingBookDetails    
+
+(   
+
+    @BookTitle VARCHAR(50),    
+
+    @AuthorName VARCHAR(20),   
+
+    @Rating float,   
+
+    @RatingCount int,
+	
+	@OriginalPrice int,
+	
+	@DiscountedPrice int,
+	
+	@Description varchar(max),
+
+	@BookQty int,
+
+	@Image varchar(100)
+
+)   
+
+as    
+
+Begin    
+
+    Insert into bookdetails_tbl (BookTitle,AuthorName,Rating,RatingCount,OriginalPrice,DiscountedPrice,Description,BookQty,Image)    
+
+    Values (@BookTitle,@AuthorName,@Rating,@RatingCount,@OriginalPrice,@DiscountedPrice,@Description,@BookQty,@Image)    
+
+	SELECT * FROM bookdetails_tbl;
+End
