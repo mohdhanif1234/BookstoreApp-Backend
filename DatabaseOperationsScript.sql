@@ -1,7 +1,7 @@
 -- Creating a user table
 Create table user_tbl(   
 
-UserId int IDENTITY(1,1) NOT NULL,   
+UserId int IDENTITY(1,1) NOT NULL PRIMARY KEY,   
 
 FullName varchar(20) NOT NULL,   
 
@@ -187,7 +187,7 @@ End
 -- Creating a book details table
 Create table bookdetails_tbl(   
 
-BookId int IDENTITY(1,1) NOT NULL,   
+BookId int IDENTITY(1,1) NOT NULL PRIMARY KEY,   
 
 BookTitle varchar(50),   
 
@@ -332,3 +332,16 @@ Begin
     SELECT * FROM bookdetails_tbl
 
 End
+
+-- Creating a cart details table
+Create table cartdetails_tbl(   
+
+CartId int IDENTITY(1,1) NOT NULL PRIMARY KEY,   
+ 
+UserId int FOREIGN KEY REFERENCES user_tbl(UserId),   
+
+BookId int FOREIGN KEY REFERENCES bookdetails_tbl(BookId),  
+
+QtyToOrder int default 1   
+
+)
