@@ -319,5 +319,5 @@ Create procedure spForGettingSingleBookDetails
 )    
 as     
 Begin     
-    SELECT * FROM bookdetails_tbl WHERE BookID= @BookId
+    SELECT * FROM bookdetails_tbl WHERE BookId= @BookId
 End

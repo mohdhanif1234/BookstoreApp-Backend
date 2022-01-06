@@ -107,5 +107,49 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<BookDetailsModel> GetBookDetailsById(int bookId)
+        {
+            try
+            {
+                List<BookDetailsModel> allBooksList = new List<BookDetailsModel>();
+                BookDetailsModel bookDetailsModel = new BookDetailsModel();
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForGettingSingleBookDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", bookId);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            bookDetailsModel.BookId = Convert.ToInt32(dr["BookId"]);
+                            bookDetailsModel.BookTitle = dr["BookTitle"].ToString();
+                            bookDetailsModel.AuthorName = dr["AuthorName"].ToString();
+                            bookDetailsModel.Rating = Convert.ToInt32(dr["Rating"]);
+                            bookDetailsModel.RatingCount = Convert.ToInt32(dr["RatingCount"]);
+                            bookDetailsModel.OriginalPrice = Convert.ToInt32(dr["OriginalPrice"]);
+                            bookDetailsModel.DiscountedPrice = Convert.ToInt32(dr["DiscountedPrice"]);
+                            bookDetailsModel.Description = dr["Description"].ToString();
+                            bookDetailsModel.BookQty = Convert.ToInt32(dr["BookQty"]);
+                            bookDetailsModel.Image = dr["Image"].ToString();
+                            allBooksList.Add(bookDetailsModel);
+                        }
+                        return allBooksList;
+                    }
+                    else
+                    {
+                        con.Close();
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
