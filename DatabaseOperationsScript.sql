@@ -321,3 +321,14 @@ as
 Begin     
     SELECT * FROM bookdetails_tbl WHERE BookId= @BookId
 End
+
+-- Creating a stored procedure for getting the details of all books in the table
+Create procedure spForGettingAllBookDetails
+    
+as
+     
+Begin
+     
+    SELECT * FROM bookdetails_tbl
+
+End
