@@ -9,5 +9,6 @@ namespace BookstoreManager.Interface
         string DeleteBookDetails(int bookId);
         string UpdateBookDetails(BookDetailsModel bookDetailsModel);
         List<BookDetailsModel> GetBookDetailsById(int bookId);
+        List<BookDetailsModel> GetAllBookDetails();
     }
 }

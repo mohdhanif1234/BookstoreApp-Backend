@@ -151,5 +151,49 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<BookDetailsModel> GetAllBookDetails()
+        {
+            try
+            {
+                List<BookDetailsModel> allBooksList = new List<BookDetailsModel>();
+                
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForGettingAllBookDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            BookDetailsModel bookDetailsModel = new BookDetailsModel();
+                            bookDetailsModel.BookId = Convert.ToInt32(dr["BookId"]);
+                            bookDetailsModel.BookTitle = dr["BookTitle"].ToString();
+                            bookDetailsModel.AuthorName = dr["AuthorName"].ToString();
+                            bookDetailsModel.Rating = (double)dr["Rating"];
+                            bookDetailsModel.RatingCount = Convert.ToInt32(dr["RatingCount"]);
+                            bookDetailsModel.OriginalPrice = Convert.ToInt32(dr["OriginalPrice"]);
+                            bookDetailsModel.DiscountedPrice = Convert.ToInt32(dr["DiscountedPrice"]);
+                            bookDetailsModel.Description = dr["Description"].ToString();
+                            bookDetailsModel.BookQty = Convert.ToInt32(dr["BookQty"]);
+                            bookDetailsModel.Image = dr["Image"].ToString();
+                            allBooksList.Add(bookDetailsModel);
+                        }
+                        return allBooksList;
+                    }
+                    else
+                    {
+                        con.Close();
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

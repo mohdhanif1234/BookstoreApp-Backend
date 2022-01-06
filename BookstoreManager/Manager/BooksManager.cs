@@ -58,5 +58,16 @@ namespace BookstoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public List<BookDetailsModel> GetAllBookDetails()
+        {
+            try
+            {
+                return this.repository.GetAllBookDetails();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

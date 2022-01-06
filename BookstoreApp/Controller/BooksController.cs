@@ -92,7 +92,29 @@ namespace BookstoreApp.Controller
 
                 if (result.Equals(null))
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Book does not exist. Kindly a new book with details to retrieve." });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Book does not exist. Kindly add a new book with details to retrieve." });
+                }
+                else
+                {
+                    return this.Ok(new ResponseModel<List<BookDetailsModel>>() { Status = true, Message = "Book details retrieved successfully", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("api/getallbookdetails")]
+        public IActionResult GetAllBookDetails()
+        {
+            try
+            {
+                List<BookDetailsModel> result = this.manager.GetAllBookDetails();
+
+                if (result.Equals(null))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Books does not exist. Kindly add a new book with details to retrieve." });
                 }
                 else
                 {
