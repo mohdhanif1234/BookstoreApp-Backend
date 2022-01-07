@@ -345,3 +345,21 @@ BookId int FOREIGN KEY REFERENCES bookdetails_tbl(BookId),
 QtyToOrder int default 1   
 
 )
+
+-- Creating a stored procedure for adding book to cart
+Create PROCEDURE spAddingBookToCart(
+
+	@UserId INT,
+
+	@BookId INT)
+
+AS
+
+BEGIN
+
+		INSERT INTO cartdetails_tbl( UserId,BookId)
+
+		VALUES (@UserId,@BookId)
+
+		Select * from cartdetails_tbl;
+END
