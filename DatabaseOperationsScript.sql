@@ -347,19 +347,21 @@ QtyToOrder int default 1
 )
 
 -- Creating a stored procedure for adding book to cart
-Create PROCEDURE spAddingBookToCart(
+Alter PROCEDURE spAddingBookToCart(
 
 	@UserId INT,
 
-	@BookId INT)
+	@BookId INT,
+	
+	@QtyToOrder INT)
 
 AS
 
 BEGIN
 
-		INSERT INTO cartdetails_tbl( UserId,BookId)
+		INSERT INTO cartdetails_tbl( UserId,BookId,QtyToOrder)
 
-		VALUES (@UserId,@BookId)
+		VALUES (@UserId,@BookId,@QtyToOrder)
 
 		Select * from cartdetails_tbl;
 END
