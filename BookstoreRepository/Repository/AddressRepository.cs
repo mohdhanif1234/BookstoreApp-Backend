@@ -118,5 +118,43 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<AddressModel> GetAllAddressDetails()
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForGettingAllAddressDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        List<AddressModel> addressList = new List<AddressModel>();
+                        while (dr.Read())
+                        {
+                            AddressModel addressModel = new AddressModel();
+                            addressModel.AddressId = Convert.ToInt32(dr["AddressId"]);
+                            addressModel.Address = dr["Address"].ToString();
+                            addressModel.City = dr["City"].ToString();
+                            addressModel.State = dr["State"].ToString();
+                            addressModel.TypeId = Convert.ToInt32(dr["TypeId"]);
+                            addressModel.UserId = Convert.ToInt32(dr["UserId"]);
+                            addressList.Add(addressModel);
+                        }
+                        return addressList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

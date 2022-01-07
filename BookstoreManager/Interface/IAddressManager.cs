@@ -8,5 +8,6 @@ namespace BookstoreManager.Interface
         string AddUserAddress(AddressModel addressModel);
         string UpdateUserAddress(AddressModel addressModel);
         List<AddressModel> GetAddressByUserId(int userId);
+        List<AddressModel> GetAllAddressDetails();
     }
 }
