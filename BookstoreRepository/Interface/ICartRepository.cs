@@ -8,5 +8,6 @@ namespace BookstoreRepository.Repository
         string connectionString { get; set; }
         string AddToCart(CartModel cartModel);
         string UpdateBookQuantity(int cartId, int qtyToOrder);
+        string DeleteCart(int cartId);
     }
 }

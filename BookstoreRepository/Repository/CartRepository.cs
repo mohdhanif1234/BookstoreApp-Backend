@@ -74,5 +74,32 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public string DeleteCart(int cartId)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForDeletingCartDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CartId", cartId);
+                    con.Open();
+                    int a = cmd.ExecuteNonQuery();
+                    if(a > 0)
+                    {
+                        return "Cart details deleted successfully";
+                    }
+                    else
+                    {
+                        return "Cart details deletion is unsuccessful";
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

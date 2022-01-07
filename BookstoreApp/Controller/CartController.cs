@@ -40,13 +40,34 @@ namespace BookstoreApp.Controller
             }
         }
         [HttpPut]
-        [Route("updatebookquantity")]
+        [Route("api/updatebookquantity")]
         public IActionResult UpdateBookQuantity(int cartId, int qtyToOrder)
         {
             try
             {
                 string result = this.cartManager.UpdateBookQuantity(cartId, qtyToOrder);
                 if (result.Equals("Book quantity updated successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpDelete]
+        [Route("api/deletecart")]
+        public IActionResult DeleteCart(int cartId)
+        {
+            try
+            {
+                string result = this.cartManager.DeleteCart(cartId);
+                if (result.Equals("Cart details deleted successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
