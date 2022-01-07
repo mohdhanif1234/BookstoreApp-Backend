@@ -576,3 +576,14 @@ BEGIN
 
 End
 
+-- Creating a stored procedure for getting all address details
+Create procedure spForGettingAllAddressDetails
+    
+as
+     
+Begin
+     
+    SELECT * FROM address_tbl
+
+End
+
