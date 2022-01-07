@@ -402,3 +402,30 @@ BEGIN
 		END
 
 END
+
+-- Creating a stored procedure for deleting the cart details
+CREATE PROCEDURE spForDeletingCartDetails
+
+	@CartId INT
+
+AS
+
+BEGIN
+
+	IF EXISTS(SELECT * FROM cartdetails_tbl WHERE CartId = @CartId)
+
+	BEGIN
+
+		DELETE FROM cartdetails_tbl WHERE CartId = @CartId
+
+	END
+
+	ELSE
+
+	BEGIN
+
+		select 1
+
+	END
+
+END
