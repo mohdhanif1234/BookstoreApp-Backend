@@ -59,5 +59,26 @@ namespace BookstoreApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/getaddressbyuserid")]
+        public IActionResult GetAddressByUserId(int userId)
+        {
+            try
+            {
+                var result = this.addressManager.GetAddressByUserId(userId);
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<object>() { Status = true, Message = "Address details retrieved successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "User Id does not Exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
