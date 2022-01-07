@@ -429,3 +429,38 @@ BEGIN
 	END
 
 END
+
+-- Creating a stored procedure for getting cart details
+CREATE PROCEDURE spForGettingCartDetails
+
+	@UserId INT
+
+AS
+
+BEGIN
+
+	SELECT
+
+		cartdetails_tbl.CartId,
+
+		cartdetails_tbl.UserId,
+
+		cartdetails_tbl.BookId,
+
+		cartdetails_tbl.QtyToOrder,	
+
+		bookdetails_tbl.BookTitle,
+
+		bookdetails_tbl.AuthorName,
+
+		bookdetails_tbl.DiscountedPrice,
+
+		bookdetails_tbl.OriginalPrice  
+
+	FROM cartdetails_tbl 
+
+	Inner JOIN bookdetails_tbl ON cartdetails_tbl.BookId = bookdetails_tbl.BookId
+
+	WHERE cartdetails_tbl.UserId = @UserId
+
+END
