@@ -531,7 +531,6 @@ Create PROCEDURE spForUpdatingUserAddress(
 
 @TypeId int
 
---@result int output
 
 )
 
@@ -539,10 +538,6 @@ AS
 
 BEGIN
 
-
-       --If exists(Select * from address_tbl where AddressId=@AddressId) 
-
-	   --begin
 
 		  UPDATE address_tbl
 
@@ -558,16 +553,26 @@ BEGIN
 
 		  WHERE AddressId=@AddressId
 
-		  --set @result=1;
-
-	   --end 
-
-	   --else
-
-	   --begin
-
-		   --set @result=0;
-
-	   --end
-
 END 
+
+-- Creating a stored procedure for getting user address by user id
+
+Create PROCEDURE spForGettingAddressDetailsByUserId
+
+@UserId int
+
+AS
+
+BEGIN
+
+
+     IF(EXISTS(SELECT * FROM address_tbl WHERE UserId=@UserId))
+
+	 begin
+
+	   SELECT * FROM address_tbl WHERE UserId=@UserId;
+
+   	 end
+
+End
+
