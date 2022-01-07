@@ -476,8 +476,6 @@ City varchar(100),
 
 State varchar(100),   
 
-Type varchar(20),
-
 TypeId int FOREIGN KEY REFERENCES type_tbl(TypeId),
 
 UserId int FOREIGN KEY REFERENCES user_tbl(UserId)  
@@ -506,8 +504,6 @@ Create PROCEDURE SpForAddingUserAddressDetails
 
 		@State varchar(50),
 
-		@Type varchar(10),
-
 		@TypeId int,
 
 		@UserId int
@@ -516,8 +512,62 @@ As
 
 Begin
 
-   Insert into address_tbl (Address,City,State,UserId,Type,TypeId) values (@Address, @City,@State,@UserId,@Type,@TypeId);
+   Insert into address_tbl (Address,City,State,UserId,TypeId) values (@Address, @City,@State,@UserId,@TypeId);
 
 End
 
 select * from address_tbl;
+
+-- Creating a stored procedure for updating user address details
+Create PROCEDURE spForUpdatingUserAddress(
+
+@AddressId int,
+
+@Address text,
+
+@City varchar(50),
+
+@State varchar(50),
+
+@TypeId varchar(10),
+
+@result int output
+
+)
+
+AS
+
+BEGIN
+
+
+       If exists(Select * from address_tbl where AddressId=@AddressId) 
+
+	   begin
+
+		  UPDATE address_tbl
+
+          SET 
+
+		   Address= @Address, 
+		   
+		   City = @City,
+
+		   State=@State,
+
+		   TypeId=@TypeId 
+
+		  WHERE AddressId=@AddressId;
+
+		  set @result=1;
+
+	   end 
+
+	   else
+
+	   begin
+
+		   set @result=0;
+
+	   end
+
+END 
