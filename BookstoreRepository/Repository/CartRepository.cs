@@ -101,5 +101,48 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<CartModel> GetCartDetails(int userId)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForGettingCartDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    List<CartModel> cartList = new List<CartModel>();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            CartModel cartModel = new CartModel();
+                            BookDetailsModel bookDetailsModel = new BookDetailsModel();
+                            bookDetailsModel.BookTitle = dr["BookTitle"].ToString();
+                            bookDetailsModel.AuthorName = dr["AuthorName"].ToString();
+                            bookDetailsModel.DiscountedPrice = Convert.ToInt32(dr["DiscountedPrice"]);
+                            bookDetailsModel.OriginalPrice = Convert.ToInt32(dr["OriginalPrice"]);
+                            bookDetailsModel.Rating = (double)dr["Rating"];
+                            cartModel.UserId = Convert.ToInt32(dr["UserId"]);
+                            cartModel.BookId = Convert.ToInt32(dr["BookId"]);
+                            cartModel.QtyToOrder = Convert.ToInt32(dr["QtyToOrder"]);
+                            cartModel.BookModel = bookDetailsModel;
+                            cartList.Add(cartModel);
+                        }
+                        return cartList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

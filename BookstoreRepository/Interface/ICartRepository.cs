@@ -1,5 +1,6 @@
 ﻿using BookstoreModels;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace BookstoreRepository.Repository
 {
@@ -9,5 +10,6 @@ namespace BookstoreRepository.Repository
         string AddToCart(CartModel cartModel);
         string UpdateBookQuantity(int cartId, int qtyToOrder);
         string DeleteCart(int cartId);
+        List<CartModel> GetCartDetails(int userId);
     }
 }

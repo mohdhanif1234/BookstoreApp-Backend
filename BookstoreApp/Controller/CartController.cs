@@ -81,5 +81,26 @@ namespace BookstoreApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/getcartdetails")]
+        public IActionResult GetCartDetails(int userId)
+        {
+            try
+            {
+                var result = this.cartManager.GetCartDetails(userId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Cart details retrieved successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Cart details retrieval is unsuccessful" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

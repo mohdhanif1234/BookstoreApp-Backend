@@ -431,7 +431,7 @@ BEGIN
 END
 
 -- Creating a stored procedure for getting cart details
-CREATE PROCEDURE spForGettingCartDetails
+ALTER PROCEDURE spForGettingCartDetails
 
 	@UserId INT
 
