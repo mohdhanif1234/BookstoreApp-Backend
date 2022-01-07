@@ -365,3 +365,40 @@ BEGIN
 
 		Select * from cartdetails_tbl;
 END
+
+-- Creating a stored procedure for updating book quantity in the cart
+CREATE PROC spForUpdatingBookQuantity
+
+	@CartId INT,
+
+	@QtyToOrder INT
+
+AS
+
+BEGIN
+
+	IF (EXISTS(SELECT * FROM cartdetails_tbl WHERE CartId = @CartId))
+
+	BEGIN
+
+			UPDATE cartdetails_tbl
+
+			SET
+
+				QtyToOrder = @QtyToOrder
+
+			WHERE
+
+				CartId = @CartId;
+
+		END
+
+		ELSE
+
+		BEGIN
+
+			Select 1;
+
+		END
+
+END
