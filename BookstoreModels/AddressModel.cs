@@ -12,6 +12,5 @@ namespace BookstoreModels
         public string City { get; set; }
         public string State { get; set; }
         public int TypeId { get; set; }
-        public string Type { get; set; }
     }
 }
