@@ -464,3 +464,20 @@ BEGIN
 	WHERE cartdetails_tbl.UserId = @UserId
 
 END
+
+-- Creating a address table
+Create table address_tbl(   
+
+AddressId int IDENTITY(1,1) NOT NULL PRIMARY KEY,   
+
+Address varchar(800),   
+
+City varchar(100),   
+
+State varchar(100),   
+
+Type varchar(20),
+
+UserId int FOREIGN KEY REFERENCES user_tbl(UserId)  
+
+)
