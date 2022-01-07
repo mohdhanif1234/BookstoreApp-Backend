@@ -470,14 +470,27 @@ Create table address_tbl(
 
 AddressId int IDENTITY(1,1) NOT NULL PRIMARY KEY,   
 
-Address varchar(800),   
+Address text,   
 
 City varchar(100),   
 
 State varchar(100),   
 
-Type varchar(20),
+TypeId int FOREIGN KEY REFERENCES type_tbl(TypeId),
 
 UserId int FOREIGN KEY REFERENCES user_tbl(UserId)  
 
 )
+
+-- Creating a type table
+Create table type_tbl (
+
+TypeId int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+
+Type varchar(20) NOT NULL
+
+)
+
+INSERT INTO type_tbl VALUES('Other');
+
+select * from type_tbl;
