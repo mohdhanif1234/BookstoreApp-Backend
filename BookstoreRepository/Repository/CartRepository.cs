@@ -22,14 +22,22 @@ namespace BookstoreRepository.Repository
                 string ConnectionStrings = config.GetConnectionString(connectionString);
                 using (SqlConnection con = new SqlConnection(ConnectionStrings))
                 {
-                    SqlCommand sqlCommand = new SqlCommand("spAddingBookToCart", con);
-                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("@BookId", cartModel.BookId);
-                    sqlCommand.Parameters.AddWithValue("@UserId", cartModel.UserId);
-                    sqlCommand.Parameters.AddWithValue("@QtyToOrder", cartModel.QtyToOrder);
+                    SqlCommand cmd = new SqlCommand("spAddingBookToCart", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookId", cartModel.BookId);
+                    cmd.Parameters.AddWithValue("@UserId", cartModel.UserId);
+                    cmd.Parameters.AddWithValue("@QtyToOrder", cartModel.QtyToOrder);
                     con.Open();
-                    sqlCommand.ExecuteNonQuery();
-                    return "The book is added to the cart successfully";
+                    int a = cmd.ExecuteNonQuery();
+                    if (a > 0)
+                    {
+                        return "The book is added to the cart successfully";
+                    }
+                    else
+                    {
+                        return "The book is not added to the cart";
+                    }
+                    
                 }
             }
             catch (Exception e)
