@@ -587,3 +587,20 @@ Begin
 
 End
 
+-- Creating wishlist table
+Create table wishlist_tbl
+(
+
+	WishlistId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+
+	UserId INT NOT NULL
+
+	FOREIGN KEY (UserId) REFERENCES user_tbl(UserId),
+
+	BookId INT NOT NULL
+
+	FOREIGN KEY (BookId) REFERENCES bookdetails_tbl(BookId)	
+
+);
+
+select * from wishlist_tbl;
