@@ -604,3 +604,40 @@ Create table wishlist_tbl
 );
 
 select * from wishlist_tbl;
+
+-- Creating a stored procedure to create a wishlist
+Create PROCEDURE spForCreatingWishlist
+
+	@UserId INT,
+
+	@BookId INT
+
+AS
+
+BEGIN 
+
+	IF EXISTS(SELECT * FROM wishlist_tbl WHERE BookId = @BookId AND UserId = @UserId)
+
+		SELECT 1;
+
+	ELSE
+
+	BEGIN
+
+		IF EXISTS(SELECT * FROM bookdetails_tbl WHERE BookId = @BookId)
+
+		BEGIN
+
+			INSERT INTO wishlist_tbl(UserId,BookId)
+
+			VALUES ( @UserId,@BookId)
+
+		END
+
+		ELSE
+
+			SELECT 2;
+
+	END
+
+END
