@@ -6,5 +6,6 @@ namespace BookstoreRepository.Interface
     {
         string connectionString { get; set; }
         string AddUserAddress(AddressModel addressModel);
+        string UpdateUserAddress(AddressModel addressModel);
     }
 }

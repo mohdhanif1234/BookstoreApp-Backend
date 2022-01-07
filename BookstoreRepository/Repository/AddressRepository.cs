@@ -48,5 +48,36 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public string UpdateUserAddress(AddressModel addressModel)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForUpdatingUserAddress", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AddressId", addressModel.AddressId);
+                    cmd.Parameters.AddWithValue("@Address", addressModel.Address);
+                    cmd.Parameters.AddWithValue("@City", addressModel.City);
+                    cmd.Parameters.AddWithValue("@State", addressModel.State);
+                    cmd.Parameters.AddWithValue("@TypeId", addressModel.TypeId);
+                    con.Open();
+                    int a = cmd.ExecuteNonQuery();
+                    if (a > 0)
+                    {
+                        return "User address updated successfully";
+                    }
+                    else
+                    {
+                        return "Address does not exist";
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

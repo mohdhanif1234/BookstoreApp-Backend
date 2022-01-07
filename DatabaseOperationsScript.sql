@@ -529,9 +529,9 @@ Create PROCEDURE spForUpdatingUserAddress(
 
 @State varchar(50),
 
-@TypeId varchar(10),
+@TypeId int
 
-@result int output
+--@result int output
 
 )
 
@@ -540,9 +540,9 @@ AS
 BEGIN
 
 
-       If exists(Select * from address_tbl where AddressId=@AddressId) 
+       --If exists(Select * from address_tbl where AddressId=@AddressId) 
 
-	   begin
+	   --begin
 
 		  UPDATE address_tbl
 
@@ -556,18 +556,18 @@ BEGIN
 
 		   TypeId=@TypeId 
 
-		  WHERE AddressId=@AddressId;
+		  WHERE AddressId=@AddressId
 
-		  set @result=1;
+		  --set @result=1;
 
-	   end 
+	   --end 
 
-	   else
+	   --else
 
-	   begin
+	   --begin
 
-		   set @result=0;
+		   --set @result=0;
 
-	   end
+	   --end
 
 END 

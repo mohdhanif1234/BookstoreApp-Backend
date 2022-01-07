@@ -38,5 +38,26 @@ namespace BookstoreApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/updateuseraddress")]
+        public IActionResult UpdateUserAddress([FromBody] AddressModel addressModel)
+        {
+            try
+            {
+                string result = this.addressManager.UpdateUserAddress(addressModel);
+                if (result.Equals("User address updated successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
