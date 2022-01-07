@@ -476,6 +476,8 @@ City varchar(100),
 
 State varchar(100),   
 
+Type varchar(20),
+
 TypeId int FOREIGN KEY REFERENCES type_tbl(TypeId),
 
 UserId int FOREIGN KEY REFERENCES user_tbl(UserId)  
@@ -494,3 +496,28 @@ Type varchar(20) NOT NULL
 INSERT INTO type_tbl VALUES('Other');
 
 select * from type_tbl;
+
+-- Creating a stored procedure for adding user address details
+Create PROCEDURE SpForAddingUserAddressDetails
+
+        @Address text,
+
+		@City varchar(50),
+
+		@State varchar(50),
+
+		@Type varchar(10),
+
+		@TypeId int,
+
+		@UserId int
+		
+As 
+
+Begin
+
+   Insert into address_tbl (Address,City,State,UserId,Type,TypeId) values (@Address, @City,@State,@UserId,@Type,@TypeId);
+
+End
+
+select * from address_tbl;
