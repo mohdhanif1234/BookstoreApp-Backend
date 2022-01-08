@@ -556,7 +556,6 @@ BEGIN
 END 
 
 -- Creating a stored procedure for getting user address by user id
-
 Create PROCEDURE spForGettingAddressDetailsByUserId
 
 @UserId int
@@ -668,3 +667,24 @@ BEGIN
 	END
 
 END
+
+
+-- Creating a stored procedure for getting wishlist details by user id
+Create PROCEDURE spForGettingWishlistDetailsByUserId
+
+@UserId int
+
+AS
+
+BEGIN
+
+
+     IF(EXISTS(SELECT * FROM wishlist_tbl WHERE UserId=@UserId))
+
+	 begin
+
+	   SELECT * FROM wishlist_tbl WHERE UserId=@UserId;
+
+   	 end
+
+End
