@@ -641,3 +641,30 @@ BEGIN
 	END
 
 END
+
+-- Creating a stored procedure for deleting the book from the wishlist
+CREATE PROCEDURE spForDeletingBookFromWishlist
+
+	@WishlistId INT
+
+AS
+
+BEGIN
+
+	IF EXISTS(SELECT * FROM wishlist_tbl WHERE WishlistId = @WishlistId)
+
+	BEGIN
+
+		DELETE FROM wishlist_tbl WHERE WishlistId = @WishlistId
+
+	END
+
+	ELSE
+
+	BEGIN
+
+		select 1
+
+	END
+
+END
