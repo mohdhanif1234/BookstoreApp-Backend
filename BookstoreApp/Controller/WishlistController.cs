@@ -60,5 +60,27 @@ namespace BookstoreApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/getwishlistdetailsbyuserid")]
+        public IActionResult GetWishlistDetailsByUserId(int userId) 
+        {
+            try
+            {
+                var result = this.wishlistManager.GetWishlistDetailsByUserId(userId);
+                if (result != null)
+                {
+
+                    return this.Ok(new { Status = true, Message = "Wishlist details retrieved successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Wishlist details retrieval is unsuccessful" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

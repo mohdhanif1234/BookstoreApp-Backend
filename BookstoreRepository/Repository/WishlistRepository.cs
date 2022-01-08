@@ -76,5 +76,47 @@ namespace BookstoreRepository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<WishlistModel> GetWishlistDetailsByUserId(int userId)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (SqlConnection con = new SqlConnection(ConnectionStrings))
+                {
+                    SqlCommand cmd = new SqlCommand("spForGettingWishlistDetailsByUserId", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    List<WishlistModel> wishList = new List<WishlistModel>();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            WishlistModel wishlistModel = new WishlistModel();
+                            BookDetailsModel bookModel = new BookDetailsModel();
+                            bookModel.BookTitle = dr["BookTitle"].ToString();
+                            bookModel.AuthorName = dr["AuthorName"].ToString();
+                            bookModel.DiscountedPrice = Convert.ToInt32(dr["DiscountedPrice"]);
+                            bookModel.OriginalPrice = Convert.ToInt32(dr["OriginalPrice"]);
+                            bookModel.Image = dr["Image"].ToString();
+                            wishlistModel.UserId = Convert.ToInt32(dr["UserId"]);
+                            wishlistModel.BookId = Convert.ToInt32(dr["BookId"]);
+                            wishlistModel.bookDetailsModel = bookModel;
+                            wishList.Add(wishlistModel);
+                        }
+                        return wishList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
