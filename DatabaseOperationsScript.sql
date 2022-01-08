@@ -689,3 +689,19 @@ WHERE wishlist_tbl.UserId = @UserId
 END
 
 GO
+
+-- Creating an order table
+Create table orders_tbl
+(
+         OrderId int not null identity (1,1) primary key,
+
+		 UserId int FOREIGN KEY (UserId) REFERENCES user_tbl(UserId),
+
+		 AddressId int FOREIGN KEY (AddressId) REFERENCES address_tbl(AddressId),
+
+	     BookId int FOREIGN KEY (BookId) REFERENCES bookdetails_tbl(BookId),
+
+		 Price int,
+
+		 Quantity int
+);
