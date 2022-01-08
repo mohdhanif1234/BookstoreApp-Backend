@@ -25,5 +25,16 @@ namespace BookstoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+        public string DeleteFromWishlist(int wishlistId)
+        {
+            try
+            {
+                return this.wishlistRepository.DeleteFromWishlist(wishlistId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

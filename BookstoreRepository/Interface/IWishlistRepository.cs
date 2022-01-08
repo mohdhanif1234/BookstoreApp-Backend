@@ -6,5 +6,6 @@ namespace BookstoreRepository.Interface
     {
         string connectionString { get; set; }
         string AddToWishlist(WishlistModel wishlistModel);
+        string DeleteFromWishlist(int wishlistId);
     }
 }

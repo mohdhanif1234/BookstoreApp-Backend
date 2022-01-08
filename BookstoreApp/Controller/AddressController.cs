@@ -24,7 +24,7 @@ namespace BookstoreApp.Controller
             try
             {
                 string result = this.addressManager.AddUserAddress(addressModel);
-                if (result.Equals("Address Added succssfully"))
+                if (result.Equals("User address details added successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
