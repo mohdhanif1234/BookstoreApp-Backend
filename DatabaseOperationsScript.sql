@@ -670,21 +670,22 @@ END
 
 
 -- Creating a stored procedure for getting wishlist details by user id
-Create PROCEDURE spForGettingWishlistDetailsByUserId
+CREATE PROCEDURE spForGettingWishlistDetailsByUserId(
 
-@UserId int
+	@UserId int
+
+)
 
 AS
 
 BEGIN
 
+SELECT * FROM bookdetails_tbl
 
-     IF(EXISTS(SELECT * FROM wishlist_tbl WHERE UserId=@UserId))
+INNER JOIN wishlist_tbl ON(bookdetails_tbl.BookId = wishlist_tbl.BookId)
 
-	 begin
+WHERE wishlist_tbl.UserId = @UserId
 
-	   SELECT * FROM wishlist_tbl WHERE UserId=@UserId;
+END
 
-   	 end
-
-End
+GO
