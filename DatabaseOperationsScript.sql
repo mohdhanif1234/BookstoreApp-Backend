@@ -705,3 +705,39 @@ Create table orders_tbl
 
 		 Quantity int
 );
+
+-- Creating a stored procedure to add an order
+Alter PROCEDURE spForAddingOrders
+	@UserId INT,
+	@AddressId int,
+	@BookId INT ,
+	@Quantity int
+AS
+	Declare @TotPrice int
+BEGIN
+	Select @TotPrice=DiscountedPrice from bookdetails_tbl where BookId = @BookId;
+	IF (EXISTS(SELECT * FROM bookdetails_tbl WHERE BookId = @BookId))
+	begin
+		IF (EXISTS(SELECT * FROM user_tbl WHERE UserId = @UserId))
+		Begin
+		Begin try
+			Begin transaction			
+				INSERT INTO orders_tbl(UserId,AddressId,BookId,Price,Quantity)
+				VALUES ( @UserId,@AddressId,@BookId,@Quantity*@TotPrice,@Quantity)
+				Update bookdetails_tbl set BookQty=BookQty-@Quantity where BookId=@BookId
+			commit Transaction
+		End try
+		Begin catch
+			Rollback transaction
+		End catch
+		end
+		Else
+		begin
+			Select 1
+		end
+	end 
+	Else
+	begin
+			Select 2
+	end	
+END
