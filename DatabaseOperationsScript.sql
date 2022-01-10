@@ -741,3 +741,18 @@ BEGIN
 			Select 2
 	end	
 END
+
+-- Creating a stored procedure for retrieving all order details
+Create procedure spForGettingAllOrderDetailsById(
+
+@UserId int
+
+)
+    
+as
+     
+Begin
+     
+    SELECT * FROM orders_tbl where UserId=@UserId;
+
+End
