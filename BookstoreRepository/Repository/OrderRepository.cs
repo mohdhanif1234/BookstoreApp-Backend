@@ -55,5 +55,53 @@ namespace BookstoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+        public List<OrderModel> RetrieveOrderDetails(int userId)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookstoreAppConnectionString"));
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "spForGettingAllOrderDetailsById";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@UserId", userId);
+                    sqlConnection.Open();
+                    SqlDataReader sqlData = sqlCommand.ExecuteReader();
+                    List<OrderModel> order = new List<OrderModel>();
+                    if (sqlData.HasRows)
+                    {
+                        while (sqlData.Read())
+                        {
+                            OrderModel orderModel = new OrderModel();
+                            BookDetailsModel bookModel = new BookDetailsModel();
+                            bookModel.BookTitle = sqlData["BookTitle"].ToString();
+                            bookModel.AuthorName = sqlData["AuthorName"].ToString();
+                            bookModel.DiscountedPrice = Convert.ToInt32(sqlData["DiscountedPrice"]);
+                            bookModel.OriginalPrice = Convert.ToInt32(sqlData["OriginalPrice"]);
+                            bookModel.Image = sqlData["Image"].ToString();
+                            orderModel.OrderId = Convert.ToInt32(sqlData["OrderId"]);
+                            //orderModel.OrderDate = sqlData["OrderDate"].ToString();
+                            orderModel.bookDetailsModel = bookModel;
+                            order.Add(orderModel);
+                        }
+                        return order;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

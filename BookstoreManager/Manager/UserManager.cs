@@ -36,6 +36,17 @@ namespace BookstoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string JWTTokenGeneration(string email)
+        {
+            try
+            {
+                return this.repository.JWTTokenGeneration(email);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
         public string ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             try

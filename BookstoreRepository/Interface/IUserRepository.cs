@@ -9,5 +9,6 @@ namespace BookstoreRepository.Interface
         string Login(LoginModel loginModel);
         string ResetPassword(ResetPasswordModel resetPasswordModel);
         string ForgotPassword(string EmailId);
+        string JWTTokenGeneration(string email);
     }
 }

@@ -2,11 +2,15 @@
 using BookstoreRepository.Interface;
 using Experimental.System.Messaging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Text;
 
 namespace BookstoreRepository.Repository
@@ -70,10 +74,24 @@ namespace BookstoreRepository.Repository
                         cmd.Parameters.AddWithValue("@EmailId", loginModel.EmailId);
                         cmd.Parameters.AddWithValue("@Password", loginModel.Password);
                         con.Open();
+                        RegisterModel registerModel = new RegisterModel();
                         dr = cmd.ExecuteReader();
                         if (dr.Read())
                         {
-                            return "Login is successful";
+                            registerModel.UserId = Convert.ToInt32(dr["UserId"]);
+                            registerModel.FullName = dr["FullName"].ToString();
+                            registerModel.EmailId = dr["EmailId"].ToString();
+                            registerModel.MobileNum = Convert.ToInt64(dr["MobileNum"]);
+                            ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                            IDatabase database = connectionMultiplexer.GetDatabase();
+                            database.StringSet(key: "Name", registerModel.FullName);
+                            database.StringSet(key: "User Id", registerModel.UserId.ToString());
+                            database.StringSet(key: "Number", registerModel.MobileNum.ToString());
+                            return "Login Successful";
+                        }
+                        else
+                        {
+                            return "Login Unsuccessful";
                         }
                     }
                 }
@@ -140,6 +158,23 @@ namespace BookstoreRepository.Repository
             {
                 throw new Exception(e.Message);
             }
+        }
+        public string JWTTokenGeneration(string email)
+        {
+            byte[] key = Encoding.UTF8.GetBytes(this.config["SecretKey"]);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key); ////create new instance
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor ////placeholders to store all atrribute to generate token
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim(ClaimTypes.Name, email)
+            }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
         }
         public void SMTP(string EmailId)
         {

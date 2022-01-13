@@ -124,7 +124,7 @@ begin
 End
 
 -- Creating a stored procedure for login
-Create procedure spForLogin 
+alter procedure spForLogin 
 
 (       
 
@@ -138,7 +138,7 @@ as
 
 Begin    
 
-	SELECT EmailId, Password FROM user_tbl WHERE EmailId= @EmailId and Password=@Password
+	SELECT * FROM user_tbl WHERE EmailId= @EmailId and Password=@Password
 End
 
 -- Creating a stored procedure for password reset
@@ -753,6 +753,11 @@ as
      
 Begin
      
-    SELECT * FROM orders_tbl where UserId=@UserId;
+SELECT * FROM orders_tbl
+
+INNER JOIN bookdetails_tbl ON(bookdetails_tbl.BookId = orders_tbl.BookId)
+
+WHERE orders_tbl.UserId = @UserId
+
 
 End
