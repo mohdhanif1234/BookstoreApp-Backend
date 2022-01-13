@@ -761,3 +761,22 @@ WHERE orders_tbl.UserId = @UserId
 
 
 End
+
+-- Creating a review table
+CREATE TABLE reviews_tbl (
+
+ReviewId int IDENTITY PRIMARY KEY NOT NULL,
+
+Rating float(53), 
+
+Comment varchar(150), 
+
+CreatedAt DATE default GETDATE(),
+
+
+BookId int FOREIGN KEY REFERENCES bookdetails_tbl(BookId) on delete cascade,
+
+
+UserId int FOREIGN KEY REFERENCES user_tbl(UserId)
+
+)
