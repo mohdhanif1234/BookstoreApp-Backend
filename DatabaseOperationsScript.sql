@@ -809,3 +809,15 @@ END CATCH
 END
 GO
 select * from reviews_tbl
+
+-- Creating a stored procedure for getting reviews by book id
+CREATE PROCEDURE spForGettingAllReviewsByBookId(
+	@BookId int
+)
+AS
+BEGIN
+SELECT user_tbl.FullName, reviews_tbl.ReviewId, reviews_tbl.Rating, reviews_tbl.Comment, reviews_tbl.CreatedAt, user_tbl.UserId FROM user_tbl
+INNER JOIN reviews_tbl ON(reviews_tbl.UserId = user_tbl.UserId)
+WHERE BookId = @BookId
+END
+GO
