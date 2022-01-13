@@ -780,3 +780,32 @@ BookId int FOREIGN KEY REFERENCES bookdetails_tbl(BookId) on delete cascade,
 UserId int FOREIGN KEY REFERENCES user_tbl(UserId)
 
 )
+
+-- Creating a stored procedure for adding the reviews
+Create PROCEDURE spForAddingReviews(
+	@Rating int,
+	@Comment varchar(150),
+	@BookId int,
+	@UserId int
+)
+AS
+BEGIN
+SET NOCOUNT ON
+BEGIN TRY
+DECLARE @Count int
+DECLARE @Avg float(53)
+BEGIN TRANSACTION
+INSERT INTO reviews_tbl (Rating, Comment, CreatedAt, BookId, UserId) VALUES(@Rating, @Comment, GETDATE(), @BookId, @UserId)
+SELECT @Count = COUNT(*), @Avg = AVG(Rating) FROM reviews_tbl
+UPDATE bookdetails_tbl SET  Rating = @Avg WHERE BookId = @BookId
+COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+IF @@TRANCOUNT > 0
+       BEGIN
+          ROLLBACK TRANSACTION
+       END;
+END CATCH
+END
+GO
+select * from reviews_tbl
