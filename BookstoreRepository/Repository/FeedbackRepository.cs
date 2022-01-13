@@ -53,5 +53,49 @@ namespace BookstoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+        public List<FeedbackModel> RetrieveOrderDetails(int bookId)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookstoreAppConnectionString"));
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "spForGettingAllReviewsByBookId";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@BookId", bookId);
+                    sqlConnection.Open();
+                    SqlDataReader sqlData = sqlCommand.ExecuteReader();
+                    List<FeedbackModel> feedback = new List<FeedbackModel>();
+                    if (sqlData.HasRows)
+                    {
+                        while (sqlData.Read())
+                        {
+                            FeedbackModel feedbackModel = new FeedbackModel();
+                            RegisterModel user = new RegisterModel();
+                            user.FullName = sqlData["FullName"].ToString();
+                            feedbackModel.Comments = sqlData["Comment"].ToString();
+                            feedbackModel.Ratings = Convert.ToInt32(sqlData["Rating"]);
+                            feedbackModel.UserId = Convert.ToInt32(sqlData["UserId"]);
+                            feedbackModel.User = user;
+                            feedback.Add(feedbackModel);
+                        }
+                        return feedback;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

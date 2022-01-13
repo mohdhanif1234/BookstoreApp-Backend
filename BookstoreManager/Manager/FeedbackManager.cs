@@ -26,5 +26,16 @@ namespace BookstoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+        public List<FeedbackModel> RetrieveOrderDetails(int bookId)
+        {
+            try
+            {
+                return this.feedbackRepository.RetrieveOrderDetails(bookId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
